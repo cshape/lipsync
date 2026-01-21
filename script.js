@@ -1,6 +1,102 @@
 // Inworld viseme symbols
 const lipSyncTypes = ["aei", "bmp", "cdgknstxyz", "chjsh", "ee", "fv", "l", "o", "qw", "r", "th", "u"];
 
+// Blink Controller - random interval blinking with occasional double-blinks
+class BlinkController {
+  constructor(eyeElements) {
+    this.eyes = eyeElements;
+    this.isBlinking = false;
+    this.scheduleNextBlink();
+  }
+
+  scheduleNextBlink() {
+    const delay = 2000 + Math.random() * 4000; // 2-6 seconds
+    setTimeout(() => this.blink(), delay);
+  }
+
+  blink() {
+    if (this.isBlinking) return;
+    this.isBlinking = true;
+
+    this.eyes.forEach(eye => eye.classList.add('blinking'));
+
+    setTimeout(() => {
+      this.eyes.forEach(eye => eye.classList.remove('blinking'));
+      this.isBlinking = false;
+
+      // 20% chance of double blink
+      if (Math.random() < 0.2) {
+        setTimeout(() => this.blink(), 150);
+      } else {
+        this.scheduleNextBlink();
+      }
+    }, 150);
+  }
+}
+
+// Eye Tracker - follows mouse with parallax depth
+class EyeTracker {
+  constructor(faceElement) {
+    this.face = faceElement;
+    this.irises = faceElement.querySelectorAll('.iris');
+    this.pupils = faceElement.querySelectorAll('.pupil');
+    this.mouseX = 0;
+    this.mouseY = 0;
+    this.lastMouseMove = Date.now();
+    this.idleTimeout = null;
+    this.maxOffset = 2;
+    this.pupilMultiplier = 1.15;
+
+    document.addEventListener('mousemove', (e) => this.onMouseMove(e));
+    this.startIdleMovement();
+  }
+
+  onMouseMove(e) {
+    this.lastMouseMove = Date.now();
+    clearTimeout(this.idleTimeout);
+
+    const faceRect = this.face.getBoundingClientRect();
+    const faceCenterX = faceRect.left + faceRect.width / 2;
+    const faceCenterY = faceRect.top + faceRect.height / 2;
+
+    const deltaX = e.clientX - faceCenterX;
+    const deltaY = e.clientY - faceCenterY;
+
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const maxDistance = 300;
+    const normalizedDistance = Math.min(distance / maxDistance, 1);
+
+    const offsetX = (deltaX / Math.max(distance, 1)) * this.maxOffset * normalizedDistance;
+    const offsetY = (deltaY / Math.max(distance, 1)) * this.maxOffset * normalizedDistance;
+
+    this.applyOffset(offsetX, offsetY);
+    this.scheduleIdleMovement();
+  }
+
+  applyOffset(x, y) {
+    this.irises.forEach(iris => {
+      iris.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+    });
+    this.pupils.forEach(pupil => {
+      pupil.style.transform = `translate(calc(-50% + ${x * this.pupilMultiplier}px), calc(-50% + ${y * this.pupilMultiplier}px))`;
+    });
+  }
+
+  scheduleIdleMovement() {
+    this.idleTimeout = setTimeout(() => this.startIdleMovement(), 3000);
+  }
+
+  startIdleMovement() {
+    if (Date.now() - this.lastMouseMove < 2000) return;
+
+    const randomX = (Math.random() - 0.5) * this.maxOffset * 0.3;
+    const randomY = (Math.random() - 0.5) * this.maxOffset * 0.3;
+    this.applyOffset(randomX, randomY);
+
+    this.idleTimeout = setTimeout(() => this.startIdleMovement(), 2000 + Math.random() * 2000);
+  }
+}
+
 function mapViseme(visemeSymbol) {
   if (!visemeSymbol) return 'bmp';
   if (lipSyncTypes.includes(visemeSymbol)) return visemeSymbol;
@@ -9,9 +105,10 @@ function mapViseme(visemeSymbol) {
 }
 
 class AudioPlayer {
-  constructor(mouthElement, logElement) {
+  constructor(mouthElement, logElement, faceElement) {
     this.mouthElement = mouthElement;
     this.logElement = logElement;
+    this.faceElement = faceElement;
     this.audioContext = null;
     this.isPlaying = false;
     this.playbackStartTime = null;
@@ -43,6 +140,7 @@ class AudioPlayer {
     this.playbackStartTime = this.audioContext.currentTime;
     this.nextScheduleTime = this.playbackStartTime;
     this.mouthElement.setAttribute('data-letters', 'aei');
+    this.faceElement.classList.add('speaking');
     this.animateLipSync();
   }
 
@@ -152,6 +250,7 @@ class AudioPlayer {
     setTimeout(() => {
       this.isPlaying = false;
       this.mouthElement.setAttribute('data-letters', 'bmp');
+      this.faceElement.classList.remove('speaking');
       // Remove all highlighting
       this.logElement.querySelectorAll('.log-entry').forEach((entry) => {
         entry.classList.remove('active');
@@ -220,7 +319,8 @@ async function speak(text) {
   if (!player) {
     player = new AudioPlayer(
       document.querySelector('#face .mouth'),
-      document.getElementById('phonemeLog')
+      document.getElementById('phonemeLog'),
+      document.getElementById('face')
     );
   }
 
@@ -269,6 +369,7 @@ async function speak(text) {
 window.addEventListener('DOMContentLoaded', () => {
   const button = document.getElementById('talkButton');
   const textInput = document.getElementById('textInput');
+  const face = document.getElementById('face');
 
   button.addEventListener('click', () => {
     const text = textInput.value.trim();
@@ -280,4 +381,9 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   document.querySelector('#face .mouth').setAttribute('data-letters', 'bmp');
+
+  // Initialize eye animations
+  const eyes = face.querySelectorAll('.eye');
+  new BlinkController(eyes);
+  new EyeTracker(face);
 });

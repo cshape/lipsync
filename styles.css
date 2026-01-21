@@ -156,10 +156,74 @@ body {
 /* Mouth shapes */
 @layer mouth, tongue, teeth;
 
+/* Variable transition timings per viseme type */
+[data-letters="bmp"] .mouth,
+[data-letters="bmp"] .tongue,
+[data-letters="bmp"] .teeth {
+  transition: all 0.08s ease-out; /* Plosives - fast snap */
+}
+
+[data-letters="cdgknstxyz"] .mouth,
+[data-letters="cdgknstxyz"] .tongue,
+[data-letters="cdgknstxyz"] .teeth,
+[data-letters="fv"] .mouth,
+[data-letters="fv"] .tongue,
+[data-letters="fv"] .teeth,
+[data-letters="th"] .mouth,
+[data-letters="th"] .tongue,
+[data-letters="th"] .teeth {
+  transition: all 0.12s ease-out; /* Consonants */
+}
+
+[data-letters="aei"] .mouth,
+[data-letters="aei"] .tongue,
+[data-letters="aei"] .teeth,
+[data-letters="ee"] .mouth,
+[data-letters="ee"] .tongue,
+[data-letters="ee"] .teeth,
+[data-letters="o"] .mouth,
+[data-letters="o"] .tongue,
+[data-letters="o"] .teeth,
+[data-letters="u"] .mouth,
+[data-letters="u"] .tongue,
+[data-letters="u"] .teeth {
+  transition: all 0.18s ease-out; /* Vowels - smooth */
+}
+
+/* Default transition for other visemes */
 .mouth,
 .tongue,
 .teeth {
-  transition: 0.3s ease;
+  transition: all 0.15s ease-out;
+}
+
+/* Enhanced mouth interior with depth */
+.mouth {
+  margin: 0 auto;
+  box-shadow:
+    inset 0 4px 8px rgba(0,0,0,0.4),
+    inset 0 -2px 4px rgba(0,0,0,0.2);
+}
+
+.mouth::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, transparent 40%, rgba(0,0,0,0.3) 100%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Enhanced tongue with gradient */
+.tongue {
+  background: linear-gradient(to bottom, #f08060 0%, #ef7d4a 40%, #d86a3a 100%) !important;
+  box-shadow: inset 0 2px 3px rgba(255,255,255,0.2);
+}
+
+/* Enhanced teeth with subtle gradient */
+.teeth {
+  background: linear-gradient(to bottom, #fffffd 0%, #f5f5f0 50%, #eeeee8 100%) !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 [data-letters="aei"] {
@@ -594,6 +658,180 @@ body {
   }
 }
 
+/* Eye blink animation */
+@keyframes blink {
+  0%, 90%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+
+.eye.blinking {
+  animation: blink 0.15s ease-in-out;
+}
+
+/* Face container */
+.face {
+  background: radial-gradient(ellipse at 50% 30%, #fce4d6 0%, #f5d0c0 50%, #e8bfad 100%);
+  padding: 40px 30px 30px;
+  border-radius: 45% 45% 50% 50%;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.1),
+    inset 0 -5px 20px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+/* Hair */
+.hair {
+  position: absolute;
+  top: -15px;
+  left: -10px;
+  right: -10px;
+  height: 80px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.hair-strand {
+  position: absolute;
+  background: linear-gradient(to bottom, #4a3728 0%, #3d2d22 50%, #2d211a 100%);
+  border-radius: 50% 50% 45% 45%;
+  box-shadow: inset 0 -5px 10px rgba(0,0,0,0.3), inset 0 5px 10px rgba(100,80,60,0.2);
+}
+
+.strand-1 {
+  width: 50px;
+  height: 65px;
+  left: 5%;
+  top: 5px;
+  transform: rotate(-15deg);
+  border-radius: 60% 40% 50% 50%;
+}
+
+.strand-2 {
+  width: 55px;
+  height: 70px;
+  left: 18%;
+  top: -5px;
+  transform: rotate(-5deg);
+  border-radius: 50% 50% 45% 55%;
+}
+
+.strand-3 {
+  width: 50px;
+  height: 68px;
+  left: 35%;
+  top: -8px;
+  transform: rotate(5deg);
+  border-radius: 45% 55% 50% 50%;
+}
+
+.strand-4 {
+  width: 48px;
+  height: 65px;
+  left: 50%;
+  top: -5px;
+  transform: rotate(-3deg);
+  border-radius: 55% 45% 48% 52%;
+}
+
+.strand-5 {
+  width: 52px;
+  height: 68px;
+  left: 62%;
+  top: -8px;
+  transform: rotate(8deg);
+  border-radius: 45% 55% 52% 48%;
+}
+
+.strand-6 {
+  width: 50px;
+  height: 65px;
+  left: 75%;
+  top: 0px;
+  transform: rotate(12deg);
+  border-radius: 40% 60% 50% 50%;
+}
+
+.strand-7 {
+  width: 45px;
+  height: 55px;
+  left: 85%;
+  top: 10px;
+  transform: rotate(18deg);
+  border-radius: 35% 65% 50% 50%;
+}
+
+/* Eyebrows */
+.eyebrows {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.eyebrow {
+  width: 35px;
+  height: 6px;
+  background: linear-gradient(to bottom, #5a4030 0%, #4a3020 100%);
+  border-radius: 40% 40% 20% 20%;
+  transition: transform 0.2s ease-out;
+}
+
+.left-eyebrow {
+  transform: rotate(-8deg);
+  border-radius: 40% 20% 20% 40%;
+}
+
+.right-eyebrow {
+  transform: rotate(8deg);
+  border-radius: 20% 40% 40% 20%;
+}
+
+/* Eyebrow raise when speaking */
+.face.speaking .left-eyebrow {
+  transform: rotate(-8deg) translateY(-3px);
+}
+
+.face.speaking .right-eyebrow {
+  transform: rotate(8deg) translateY(-3px);
+}
+
+/* Subtle idle eyebrow animation */
+@keyframes eyebrow-idle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.5px); }
+}
+
+.face:not(.speaking) .left-eyebrow {
+  animation: eyebrow-idle 4s ease-in-out infinite;
+  transform: rotate(-8deg);
+}
+
+.face:not(.speaking) .right-eyebrow {
+  animation: eyebrow-idle 4s ease-in-out infinite 0.5s;
+  transform: rotate(8deg);
+}
+
+/* Speaking movement animation */
+@keyframes speaking-movement {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-1px) rotate(0.3deg); }
+  75% { transform: translateY(0.5px) rotate(-0.2deg); }
+}
+
+.face.speaking {
+  animation: speaking-movement 0.6s ease-in-out infinite;
+}
+
+/* Idle breathing animation */
+@keyframes breathing {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(1.005); }
+}
+
+.face:not(.speaking) {
+  animation: breathing 4s ease-in-out infinite;
+}
+
 /* Eyes */
 @layer eye, iris, pupil, light;
 
@@ -611,7 +849,11 @@ body {
     block-size: 40px;
     margin-block-end: 16px;
     border-radius: 50%;
-    background-color: #fffffd;
+    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, #f8f8f8 60%, #e8e8e8 100%);
+    box-shadow:
+      inset 0 2px 4px rgba(0,0,0,0.1),
+      inset 0 -1px 2px rgba(255,255,255,0.8),
+      0 2px 4px rgba(0,0,0,0.1);
     overflow: hidden;
     &.left-eye { rotate: -10deg; }
     &.right-eye { rotate: 10deg; }
@@ -623,10 +865,23 @@ body {
     position: absolute;
     inline-size: 26px;
     block-size: 36px;
-    background-color: #6B4423;
+    background: radial-gradient(ellipse at 50% 45%,
+      #7da36d 0%,
+      #5a8a4a 25%,
+      #8b7355 50%,
+      #3d5c35 75%,
+      #2a3d25 100%);
     border-radius: 50%;
-    &.left-iris { inset-inline-end: -2px; inset-block-end: -2px; }
-    &.right-iris { inset-inline-start: -2px; inset-block-end: -2px; }
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    transition: transform 0.1s ease-out;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    &.left-iris, &.right-iris {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 }
 
@@ -635,10 +890,20 @@ body {
     position: absolute;
     inline-size: 10px;
     block-size: 15px;
-    background-color: #000;
+    background: radial-gradient(ellipse at 40% 30%,
+      #1a1a1a 0%,
+      #000000 50%,
+      #000000 100%);
     border-radius: 50%;
-    &.left-pupil { inset-inline-end: 5px; inset-block-end: 8px; rotate: 15deg; }
-    &.right-pupil { inset-inline-start: 5px; inset-block-end: 8px; rotate: -15deg; }
+    transition: transform 0.1s ease-out;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    &.left-pupil, &.right-pupil {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
 }
 
@@ -647,9 +912,13 @@ body {
     position: absolute;
     inline-size: 6px;
     block-size: 6px;
-    background-color: #fffffd;
+    background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
     border-radius: 50%;
-    &.left-light { inset-inline-end: 7px; inset-block-end: 14px; }
-    &.right-light { inset-inline-start: 7px; inset-block-end: 14px; }
+    filter: blur(0.5px);
+    &.left-light, &.right-light {
+      top: 20%;
+      left: 60%;
+      transform: translate(-50%, -50%);
+    }
   }
 }

@@ -43,3 +43,5 @@ Your browser will open automatically to http://localhost:3000
 | `aei` | Open vowels | b**a**t, b**e**t |
 | `o` | Rounded vowels | b**oa**t |
 | `u` | High back rounded | b**oo**t |
+
+Thanks to [this blog](https://medium.com/@yashrajbharti.met18/lipsyncing-made-dead-simple-using-pure-css-e345ce604c94) from [Yash Raj Bharti](https://www.linkedin.com/in/yash-raj-bharti/) which got me started.
