@@ -19,7 +19,7 @@ app.get('/api/tts', async (req, res) => {
   const text = req.query.text || "Hello, how are you doing today?";
 
   try {
-    const response = await fetch('https://api.dev.inworld.ai/tts/v1/voice:stream', {
+    const response = await fetch('https://api.inworld.ai/tts/v1/voice:stream', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
