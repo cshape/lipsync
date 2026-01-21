@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lip Sync</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="timeline-sidebar">
+      <h4>Phonemes/Visemes</h4>
+      <div id="phonemeLog" class="log-content"></div>
+    </div>
+
+    <div class="main-content">
+      <div class="controls">
+        <input
+          type="text"
+          id="textInput"
+          class="text-input"
+          placeholder="Enter text to speak..."
+          value="Hello, how are you doing today?"
+        />
+        <button id="talkButton" class="talk-button">Talk</button>
+      </div>
+
+      <div class="face" id="face">
+        <div class="eyes">
+          <div class="eye left-eye">
+            <div class="iris left-iris">
+              <div class="pupil left-pupil">
+                <div class="light left-light"></div>
+              </div>
+            </div>
+          </div>
+          <div class="eye right-eye">
+            <div class="iris right-iris">
+              <div class="pupil right-pupil">
+                <div class="light right-light"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mouth" data-letters="bmp">
+          <div class="tongue left-part"></div>
+          <div class="tongue right-part"></div>
+          <div class="teeth upper-part"></div>
+          <div class="teeth lower-part"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

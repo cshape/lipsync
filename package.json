@@ -1,0 +1,14 @@
+{
+  "name": "lipsync",
+  "version": "1.0.0",
+  "description": "Real-time lipsync visualization with Inworld TTS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^4.18.2",
+    "open": "^10.1.0"
+  }
+}
