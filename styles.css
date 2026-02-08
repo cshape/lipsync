@@ -176,13 +176,13 @@ body {
 .upper-lip {
   top: -4px;
   background: linear-gradient(to bottom,
-    #e8a090 0%,
-    #e09585 50%,
-    #d88878 100%);
+    #ecada0 0%,
+    #e59a8c 40%,
+    #dc8c7e 100%);
   border-radius: 50% 50% 45% 45% / 100% 100% 60% 60%;
   box-shadow:
-    inset 0 2px 3px rgba(255,255,255,0.3),
-    0 1px 2px rgba(0,0,0,0.1);
+    inset 0 2px 4px rgba(255,255,255,0.35),
+    0 1px 3px rgba(0,0,0,0.12);
 }
 
 /* Cupid's bow effect */
@@ -202,15 +202,15 @@ body {
 .lower-lip {
   bottom: -5px;
   background: linear-gradient(to bottom,
-    #e59585 0%,
-    #dc8575 40%,
-    #d27565 100%);
+    #e89a8a 0%,
+    #e08a78 35%,
+    #d67a68 100%);
   border-radius: 45% 45% 50% 50% / 60% 60% 100% 100%;
-  height: 10px;
+  height: 11px;
   box-shadow:
-    inset 0 -2px 4px rgba(0,0,0,0.15),
-    inset 0 2px 3px rgba(255,255,255,0.2),
-    0 2px 3px rgba(0,0,0,0.1);
+    inset 0 -3px 5px rgba(0,0,0,0.18),
+    inset 0 2px 4px rgba(255,255,255,0.25),
+    0 2px 4px rgba(0,0,0,0.12);
 }
 
 /* Lip shine */
@@ -220,9 +220,9 @@ body {
   top: 2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 30px;
-  height: 4px;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+  width: 35px;
+  height: 5px;
+  background: linear-gradient(to right, transparent 5%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,0.4) 60%, transparent 95%);
   border-radius: 50%;
 }
 
@@ -798,14 +798,14 @@ body {
 
 /* Face container */
 .face {
-  background: radial-gradient(ellipse at 50% 35%, #ffe8dc 0%, #ffd9c8 40%, #ffc9b5 70%, #f5b8a0 100%);
+  background: radial-gradient(ellipse at 50% 30%, #ffede4 0%, #ffe2d5 30%, #ffd5c5 55%, #ffc8b2 75%, #f5b8a0 100%);
   padding: 50px 35px 35px;
   border-radius: 48% 48% 45% 45% / 50% 50% 48% 48%;
   box-shadow:
-    0 12px 35px rgba(0,0,0,0.12),
-    0 4px 15px rgba(0,0,0,0.08),
-    inset 0 -8px 25px rgba(0,0,0,0.04),
-    inset 0 3px 10px rgba(255,255,255,0.3);
+    0 15px 40px rgba(0,0,0,0.14),
+    0 5px 18px rgba(0,0,0,0.08),
+    inset 0 -10px 30px rgba(0,0,0,0.03),
+    inset 0 4px 12px rgba(255,255,255,0.35);
   position: relative;
 }
 
@@ -814,22 +814,23 @@ body {
 .face::after {
   content: '';
   position: absolute;
-  width: 38px;
-  height: 22px;
-  background: radial-gradient(ellipse at center, rgba(255, 140, 140, 0.45) 0%, rgba(255, 150, 150, 0.3) 40%, transparent 70%);
+  width: 42px;
+  height: 24px;
+  background: radial-gradient(ellipse at center, rgba(255, 130, 130, 0.5) 0%, rgba(255, 145, 145, 0.35) 35%, rgba(255, 160, 160, 0.15) 60%, transparent 75%);
   border-radius: 50%;
-  top: 52%;
+  top: 54%;
   pointer-events: none;
   z-index: 5;
-  filter: blur(3px);
+  filter: blur(4px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .face::before {
-  left: 8px;
+  left: 6px;
 }
 
 .face::after {
-  right: 8px;
+  right: 6px;
 }
 
 /* Hair */
@@ -845,12 +846,12 @@ body {
 
 .hair-strand {
   position: absolute;
-  background: linear-gradient(to bottom, #5a4535 0%, #4a3728 30%, #3d2d22 60%, #2d211a 100%);
+  background: linear-gradient(to bottom, #6a5545 0%, #5a4535 20%, #4a3728 45%, #3d2d22 70%, #2d211a 100%);
   border-radius: 50% 50% 45% 45%;
   box-shadow:
-    inset 0 -5px 12px rgba(0,0,0,0.35),
-    inset 0 5px 15px rgba(130,100,70,0.25),
-    inset 0 0 20px rgba(80,60,40,0.1);
+    inset 0 -6px 14px rgba(0,0,0,0.38),
+    inset 0 6px 18px rgba(140,110,80,0.28),
+    inset 0 0 25px rgba(90,70,50,0.12);
 }
 
 .strand-1 {
@@ -918,23 +919,37 @@ body {
 
 /* Cute nose */
 .nose {
-  width: 12px;
-  height: 10px;
-  margin: 8px auto 10px;
-  background: radial-gradient(ellipse at 50% 70%, rgba(200, 140, 120, 0.3) 0%, transparent 70%);
-  border-radius: 50% 50% 45% 45%;
+  width: 14px;
+  height: 12px;
+  margin: 10px auto 12px;
+  background: radial-gradient(ellipse at 50% 65%, rgba(215, 150, 130, 0.35) 0%, rgba(200, 140, 120, 0.15) 50%, transparent 75%);
+  border-radius: 50% 50% 48% 48%;
   position: relative;
 }
 
 .nose::before {
   content: '';
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: rgba(180, 120, 100, 0.2);
+  width: 5px;
+  height: 5px;
+  background: rgba(190, 130, 110, 0.25);
   border-radius: 50%;
   left: 50%;
-  top: 60%;
+  top: 55%;
+  transform: translateX(-50%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Subtle nose highlight */
+.nose::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 3px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), transparent);
+  border-radius: 50%;
+  left: 50%;
+  top: 20%;
   transform: translateX(-50%);
 }
 
@@ -947,11 +962,12 @@ body {
 }
 
 .eyebrow {
-  width: 35px;
-  height: 6px;
-  background: linear-gradient(to bottom, #5a4030 0%, #4a3020 100%);
-  border-radius: 40% 40% 20% 20%;
+  width: 36px;
+  height: 7px;
+  background: linear-gradient(to bottom, #5a4535 0%, #4a3525 50%, #3a2818 100%);
+  border-radius: 45% 45% 20% 20%;
   transition: transform 0.2s ease-out;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .left-eyebrow {
@@ -1035,12 +1051,14 @@ body {
 
 /* Subtle eye shine animation when idle */
 .face:not(.speaking) .light {
-  animation: eye-sparkle 3s ease-in-out infinite;
+  animation: eye-sparkle 2.5s ease-in-out infinite;
 }
 
 @keyframes eye-sparkle {
   0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(0.9); }
+  30% { opacity: 0.95; transform: translate(-50%, -50%) scale(1.05); }
+  50% { opacity: 0.85; transform: translate(-50%, -50%) scale(0.92); }
+  70% { opacity: 0.95; transform: translate(-50%, -50%) scale(1.02); }
 }
 
 /* Eyes */
@@ -1074,9 +1092,9 @@ body {
 
 .lash {
   position: absolute;
-  width: 2px;
+  width: 2.5px;
   height: 6px;
-  background: linear-gradient(to bottom, #3d2d22 0%, #2a1f18 100%);
+  background: linear-gradient(to bottom, #4a3a2d 0%, #3d2d22 40%, #2a1f18 100%);
   border-radius: 50% 50% 40% 40%;
   transform-origin: bottom center;
 }
@@ -1096,15 +1114,15 @@ body {
 @layer eye {
   .eye {
     position: relative;
-    inline-size: 36px;
-    block-size: 44px;
+    inline-size: 38px;
+    block-size: 46px;
     margin-block-end: 18px;
     border-radius: 45% 45% 50% 50%;
-    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, #fafafa 50%, #f0f0f0 80%, #e5e5e5 100%);
+    background: radial-gradient(ellipse at 50% 38%, #ffffff 0%, #fcfcfc 40%, #f5f5f5 70%, #ebebeb 90%, #e2e2e2 100%);
     box-shadow:
-      inset 0 3px 6px rgba(0,0,0,0.12),
-      inset 0 -2px 4px rgba(255,255,255,0.9),
-      0 3px 6px rgba(0,0,0,0.12);
+      inset 0 4px 8px rgba(0,0,0,0.14),
+      inset 0 -3px 5px rgba(255,255,255,0.95),
+      0 4px 8px rgba(0,0,0,0.12);
     overflow: hidden;
     &.left-eye { rotate: -8deg; }
     &.right-eye { rotate: 8deg; }
@@ -1117,16 +1135,18 @@ body {
     inline-size: 28px;
     block-size: 38px;
     background: radial-gradient(ellipse at 50% 45%,
-      #8fb87f 0%,
-      #6ba35a 20%,
-      #5a8a4a 40%,
-      #4a7a3a 60%,
-      #3d5c35 80%,
-      #2a3d25 100%);
+      #9cc48c 0%,
+      #7eb86a 15%,
+      #6ba35a 30%,
+      #5a9048 50%,
+      #4a7a3a 70%,
+      #3d6530 85%,
+      #2a4d22 100%);
     border-radius: 50%;
     box-shadow:
-      inset 0 2px 6px rgba(0,0,0,0.35),
-      inset 0 0 15px rgba(0,0,0,0.15);
+      inset 0 3px 8px rgba(0,0,0,0.4),
+      inset 0 0 20px rgba(0,0,0,0.15),
+      inset 0 -2px 6px rgba(100,180,80,0.2);
     transition: transform 0.1s ease-out;
     left: 50%;
     top: 50%;
@@ -1144,7 +1164,21 @@ body {
     position: absolute;
     inset: 3px;
     border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    pointer-events: none;
+  }
+
+  /* Iris radial pattern */
+  .iris::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    background: repeating-conic-gradient(
+      from 0deg,
+      rgba(80, 140, 60, 0.15) 0deg 10deg,
+      transparent 10deg 20deg
+    );
     pointer-events: none;
   }
 }
@@ -1152,17 +1186,19 @@ body {
 @layer pupil {
   .pupil {
     position: absolute;
-    inline-size: 12px;
-    block-size: 16px;
-    background: radial-gradient(ellipse at 35% 25%,
-      #2a2a2a 0%,
-      #0a0a0a 40%,
+    inline-size: 13px;
+    block-size: 17px;
+    background: radial-gradient(ellipse at 32% 22%,
+      #353535 0%,
+      #1a1a1a 30%,
+      #0a0a0a 60%,
       #000000 100%);
     border-radius: 50%;
     transition: transform 0.1s ease-out;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     &.left-pupil, &.right-pupil {
       left: 50%;
       top: 50%;
@@ -1174,14 +1210,14 @@ body {
 @layer light {
   .light {
     position: absolute;
-    inline-size: 8px;
-    block-size: 8px;
-    background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.95) 40%, rgba(255,255,255,0) 100%);
+    inline-size: 9px;
+    block-size: 9px;
+    background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.98) 35%, rgba(255,255,255,0) 100%);
     border-radius: 50%;
-    filter: blur(0.3px);
+    filter: blur(0.2px);
     &.left-light, &.right-light {
-      top: 18%;
-      left: 58%;
+      top: 16%;
+      left: 60%;
       transform: translate(-50%, -50%);
     }
   }
@@ -1190,11 +1226,24 @@ body {
   .light::after {
     content: '';
     position: absolute;
-    width: 4px;
-    height: 4px;
+    width: 5px;
+    height: 5px;
+    background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.95) 45%, transparent 100%);
+    border-radius: 50%;
+    bottom: -14px;
+    left: -10px;
+    filter: blur(0.2px);
+  }
+
+  /* Third tiny sparkle for extra cuteness */
+  .light::before {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
     background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.9) 50%, transparent 100%);
     border-radius: 50%;
-    bottom: -12px;
-    left: -8px;
+    top: 8px;
+    left: 6px;
   }
 }
