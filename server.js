@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 
 const INWORLD_API_KEY = process.env.INWORLD_API_KEY;
-const VOICE_ID = "Dennis";
+const VOICE_ID = "Clive";
 
 if (!INWORLD_API_KEY) {
   console.error('Error: INWORLD_API_KEY is required');
@@ -17,8 +17,18 @@ app.use(express.static(__dirname));
 
 app.get('/api/tts', async (req, res) => {
   const text = req.query.text || "Hello, how are you doing today?";
+  const timestampsEnabled = req.query.timestamps !== '0';
 
   try {
+    const body = {
+      text,
+      voiceId: VOICE_ID,
+      modelId: "inworld-tts-1.5-max",
+      audioConfig: { audioEncoding: "OGG_OPUS" }
+    };
+    if (timestampsEnabled) {
+      body.timestampType = "WORD";
+    }
     const response = await fetch('https://api.inworld.ai/tts/v1/voice:stream', {
       method: 'POST',
       headers: {
@@ -26,13 +36,7 @@ app.get('/api/tts', async (req, res) => {
         'Grpc-Metadata-X-Authorization-Bearer-Type': 'studio_api',
         'Authorization': `Basic ${INWORLD_API_KEY}`
       },
-      body: JSON.stringify({
-        text,
-        voiceId: VOICE_ID,
-        modelId: "inworld-tts-1.5-max",
-        timestampType: "WORD",
-        audioConfig: { audioEncoding: "OGG_OPUS" }
-      })
+      body: JSON.stringify(body)
     });
 
     if (!response.ok) {

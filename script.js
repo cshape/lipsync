@@ -345,6 +345,8 @@ class AudioPlayer {
 
 let player = null;
 let isSpeaking = false;
+let timestampsToggle = null;
+let latencyValue = null;
 
 async function speak(text) {
   if (isSpeaking) return;
@@ -353,6 +355,10 @@ async function speak(text) {
   const button = document.getElementById('talkButton');
   button.disabled = true;
   button.textContent = 'Speaking...';
+  const timestampsEnabled = timestampsToggle ? timestampsToggle.checked : true;
+  const requestStart = performance.now();
+  let firstAudioReceived = false;
+  if (latencyValue) latencyValue.textContent = '—';
 
   if (!player) {
     player = new AudioPlayer(
@@ -365,7 +371,11 @@ async function speak(text) {
   await player.init();
   player.reset();
 
-  const response = await fetch(`/api/tts?text=${encodeURIComponent(text)}`);
+  const query = new URLSearchParams({
+    text,
+    timestamps: timestampsEnabled ? '1' : '0'
+  });
+  const response = await fetch(`/api/tts?${query.toString()}`);
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = '';
@@ -388,13 +398,23 @@ async function speak(text) {
           if (data.done) {
             player.streamComplete();
           } else if (data.type === 'chunk' && data.data) {
+            if (!firstAudioReceived) {
+              firstAudioReceived = true;
+              if (latencyValue) {
+                const latencyMs = Math.max(0, Math.round(performance.now() - requestStart));
+                latencyValue.textContent = `${latencyMs} ms`;
+              }
+            }
             player.addOggChunk(data.data);
-          } else if (data.type === 'timestamps' && data.timestampInfo) {
+          } else if (timestampsEnabled && data.type === 'timestamps' && data.timestampInfo) {
             player.setTimestamps(data.timestampInfo);
           }
         } catch (e) {}
       }
     }
+  }
+  if (!firstAudioReceived && latencyValue) {
+    latencyValue.textContent = 'n/a';
   }
 
   setTimeout(() => {
@@ -408,6 +428,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const button = document.getElementById('talkButton');
   const textInput = document.getElementById('textInput');
   const face = document.getElementById('face');
+  timestampsToggle = document.getElementById('timestampsToggle');
+  latencyValue = document.getElementById('latencyValue');
 
   // Initialize dark mode
   initDarkMode();
