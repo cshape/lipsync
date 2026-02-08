@@ -1,3 +1,41 @@
+// Dark mode toggle functionality
+function initDarkMode() {
+  const toggle = document.getElementById('darkModeToggle');
+  const html = document.documentElement;
+
+  // Check for saved preference or system preference
+  const savedTheme = localStorage.getItem('theme');
+  const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+    html.setAttribute('data-theme', 'dark');
+  }
+
+  toggle.addEventListener('click', () => {
+    const currentTheme = html.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    if (newTheme === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+    } else {
+      html.removeAttribute('data-theme');
+    }
+
+    localStorage.setItem('theme', newTheme);
+  });
+
+  // Listen for system theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) {
+      if (e.matches) {
+        html.setAttribute('data-theme', 'dark');
+      } else {
+        html.removeAttribute('data-theme');
+      }
+    }
+  });
+}
+
 // Inworld viseme symbols
 const lipSyncTypes = ["aei", "bmp", "cdgknstxyz", "chjsh", "ee", "fv", "l", "o", "qw", "r", "th", "u"];
 
@@ -370,6 +408,9 @@ window.addEventListener('DOMContentLoaded', () => {
   const button = document.getElementById('talkButton');
   const textInput = document.getElementById('textInput');
   const face = document.getElementById('face');
+
+  // Initialize dark mode
+  initDarkMode();
 
   button.addEventListener('click', () => {
     const text = textInput.value.trim();
