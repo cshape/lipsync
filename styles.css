@@ -153,77 +153,196 @@ body {
   color: #ccc;
 }
 
+/* Lips container */
+.lips-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+/* Lip styling */
+.lip {
+  position: absolute;
+  width: 90px;
+  height: 8px;
+  border-radius: 50%;
+  z-index: 2;
+  pointer-events: none;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.upper-lip {
+  top: -4px;
+  background: linear-gradient(to bottom,
+    #e8a090 0%,
+    #e09585 50%,
+    #d88878 100%);
+  border-radius: 50% 50% 45% 45% / 100% 100% 60% 60%;
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,0.3),
+    0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Cupid's bow effect */
+.upper-lip::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 4px;
+  background: transparent;
+  border-bottom: 2px solid rgba(0,0,0,0.05);
+  border-radius: 0 0 50% 50%;
+}
+
+.lower-lip {
+  bottom: -5px;
+  background: linear-gradient(to bottom,
+    #e59585 0%,
+    #dc8575 40%,
+    #d27565 100%);
+  border-radius: 45% 45% 50% 50% / 60% 60% 100% 100%;
+  height: 10px;
+  box-shadow:
+    inset 0 -2px 4px rgba(0,0,0,0.15),
+    inset 0 2px 3px rgba(255,255,255,0.2),
+    0 2px 3px rgba(0,0,0,0.1);
+}
+
+/* Lip shine */
+.lower-lip::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 4px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+  border-radius: 50%;
+}
+
 /* Mouth shapes */
 @layer mouth, tongue, teeth;
 
 /* Variable transition timings per viseme type */
 [data-letters="bmp"] .mouth,
 [data-letters="bmp"] .tongue,
-[data-letters="bmp"] .teeth {
-  transition: all 0.08s ease-out; /* Plosives - fast snap */
+[data-letters="bmp"] .teeth,
+[data-letters="bmp"] ~ .lip {
+  transition: all 0.06s cubic-bezier(0.4, 0, 0.2, 1); /* Plosives - fast snap */
 }
 
 [data-letters="cdgknstxyz"] .mouth,
 [data-letters="cdgknstxyz"] .tongue,
 [data-letters="cdgknstxyz"] .teeth,
+[data-letters="cdgknstxyz"] ~ .lip,
 [data-letters="fv"] .mouth,
 [data-letters="fv"] .tongue,
 [data-letters="fv"] .teeth,
+[data-letters="fv"] ~ .lip,
 [data-letters="th"] .mouth,
 [data-letters="th"] .tongue,
-[data-letters="th"] .teeth {
-  transition: all 0.12s ease-out; /* Consonants */
+[data-letters="th"] .teeth,
+[data-letters="th"] ~ .lip {
+  transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1); /* Consonants */
 }
 
 [data-letters="aei"] .mouth,
 [data-letters="aei"] .tongue,
 [data-letters="aei"] .teeth,
+[data-letters="aei"] ~ .lip,
 [data-letters="ee"] .mouth,
 [data-letters="ee"] .tongue,
 [data-letters="ee"] .teeth,
+[data-letters="ee"] ~ .lip,
 [data-letters="o"] .mouth,
 [data-letters="o"] .tongue,
 [data-letters="o"] .teeth,
+[data-letters="o"] ~ .lip,
 [data-letters="u"] .mouth,
 [data-letters="u"] .tongue,
-[data-letters="u"] .teeth {
-  transition: all 0.18s ease-out; /* Vowels - smooth */
+[data-letters="u"] .teeth,
+[data-letters="u"] ~ .lip {
+  transition: all 0.14s cubic-bezier(0.25, 0.1, 0.25, 1); /* Vowels - smooth */
 }
 
 /* Default transition for other visemes */
 .mouth,
 .tongue,
-.teeth {
-  transition: all 0.15s ease-out;
+.teeth,
+.lip {
+  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Lip adjustments per viseme */
+[data-letters="bmp"] ~ .upper-lip { transform: translateY(4px) scaleY(0.5); }
+[data-letters="bmp"] ~ .lower-lip { transform: translateY(-4px) scaleY(0.5); }
+
+[data-letters="aei"] ~ .upper-lip { transform: translateY(-2px); width: 85px; }
+[data-letters="aei"] ~ .lower-lip { transform: translateY(8px); width: 85px; }
+
+[data-letters="o"] ~ .upper-lip { transform: translateY(2px); width: 70px; height: 6px; border-radius: 40%; }
+[data-letters="o"] ~ .lower-lip { transform: translateY(25px); width: 70px; height: 8px; border-radius: 40%; }
+
+[data-letters="ee"] ~ .upper-lip { width: 88px; }
+[data-letters="ee"] ~ .lower-lip { transform: translateY(4px); width: 88px; }
+
+[data-letters="u"] ~ .upper-lip { width: 75px; }
+[data-letters="u"] ~ .lower-lip { transform: translateY(6px); width: 75px; }
+
+[data-letters="fv"] ~ .upper-lip { transform: translateY(2px); }
+[data-letters="fv"] ~ .lower-lip { transform: translateY(2px); }
+
+[data-letters="cdgknstxyz"] ~ .upper-lip { transform: translateY(0); width: 84px; }
+[data-letters="cdgknstxyz"] ~ .lower-lip { transform: translateY(3px); width: 84px; }
+
+[data-letters="chjsh"] ~ .upper-lip { transform: translateY(-1px); width: 82px; }
+[data-letters="chjsh"] ~ .lower-lip { transform: translateY(5px); width: 82px; }
+
+[data-letters="l"] ~ .upper-lip { transform: translateY(-1px); width: 80px; }
+[data-letters="l"] ~ .lower-lip { transform: translateY(10px); width: 80px; }
+
+[data-letters="qw"] ~ .upper-lip { transform: translateY(0); width: 86px; border-radius: 50%; }
+[data-letters="qw"] ~ .lower-lip { transform: translateY(6px); width: 86px; }
+
+[data-letters="r"] ~ .upper-lip { transform: translateY(0); width: 82px; }
+[data-letters="r"] ~ .lower-lip { transform: translateY(5px); width: 82px; }
+
+[data-letters="th"] ~ .upper-lip { transform: translateY(1px); width: 82px; }
+[data-letters="th"] ~ .lower-lip { transform: translateY(3px); width: 82px; }
 
 /* Enhanced mouth interior with depth */
 .mouth {
   margin: 0 auto;
   box-shadow:
-    inset 0 4px 8px rgba(0,0,0,0.4),
-    inset 0 -2px 4px rgba(0,0,0,0.2);
+    inset 0 5px 10px rgba(0,0,0,0.45),
+    inset 0 -3px 6px rgba(0,0,0,0.25);
 }
 
 .mouth::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 80%, transparent 40%, rgba(0,0,0,0.3) 100%);
+  background: radial-gradient(ellipse at 50% 80%, transparent 40%, rgba(0,0,0,0.35) 100%);
   pointer-events: none;
   border-radius: inherit;
 }
 
 /* Enhanced tongue with gradient */
 .tongue {
-  background: linear-gradient(to bottom, #f08060 0%, #ef7d4a 40%, #d86a3a 100%) !important;
-  box-shadow: inset 0 2px 3px rgba(255,255,255,0.2);
+  background: linear-gradient(to bottom, #f08a6a 0%, #ef7d4a 40%, #d86a3a 100%) !important;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.25);
 }
 
 /* Enhanced teeth with subtle gradient */
 .teeth {
-  background: linear-gradient(to bottom, #fffffd 0%, #f5f5f0 50%, #eeeee8 100%) !important;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  background: linear-gradient(to bottom, #ffffff 0%, #fafafa 40%, #f2f2f0 100%) !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
 }
 
 [data-letters="aei"] {
@@ -660,23 +779,57 @@ body {
 
 /* Eye blink animation */
 @keyframes blink {
-  0%, 90%, 100% { transform: scaleY(1); }
-  95% { transform: scaleY(0.1); }
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.08); }
 }
 
-.eye.blinking {
+.eye-container.blinking .eye {
   animation: blink 0.15s ease-in-out;
+}
+
+.eye-container.blinking .eyelashes {
+  animation: lash-blink 0.15s ease-in-out;
+}
+
+@keyframes lash-blink {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  50% { transform: translateY(18px) scaleY(0.5); }
 }
 
 /* Face container */
 .face {
-  background: radial-gradient(ellipse at 50% 30%, #fce4d6 0%, #f5d0c0 50%, #e8bfad 100%);
-  padding: 40px 30px 30px;
-  border-radius: 45% 45% 50% 50%;
+  background: radial-gradient(ellipse at 50% 35%, #ffe8dc 0%, #ffd9c8 40%, #ffc9b5 70%, #f5b8a0 100%);
+  padding: 50px 35px 35px;
+  border-radius: 48% 48% 45% 45% / 50% 50% 48% 48%;
   box-shadow:
-    0 10px 30px rgba(0,0,0,0.1),
-    inset 0 -5px 20px rgba(0,0,0,0.05);
+    0 12px 35px rgba(0,0,0,0.12),
+    0 4px 15px rgba(0,0,0,0.08),
+    inset 0 -8px 25px rgba(0,0,0,0.04),
+    inset 0 3px 10px rgba(255,255,255,0.3);
   position: relative;
+}
+
+/* Cute blush cheeks */
+.face::before,
+.face::after {
+  content: '';
+  position: absolute;
+  width: 38px;
+  height: 22px;
+  background: radial-gradient(ellipse at center, rgba(255, 140, 140, 0.45) 0%, rgba(255, 150, 150, 0.3) 40%, transparent 70%);
+  border-radius: 50%;
+  top: 52%;
+  pointer-events: none;
+  z-index: 5;
+  filter: blur(3px);
+}
+
+.face::before {
+  left: 8px;
+}
+
+.face::after {
+  right: 8px;
 }
 
 /* Hair */
@@ -692,9 +845,12 @@ body {
 
 .hair-strand {
   position: absolute;
-  background: linear-gradient(to bottom, #4a3728 0%, #3d2d22 50%, #2d211a 100%);
+  background: linear-gradient(to bottom, #5a4535 0%, #4a3728 30%, #3d2d22 60%, #2d211a 100%);
   border-radius: 50% 50% 45% 45%;
-  box-shadow: inset 0 -5px 10px rgba(0,0,0,0.3), inset 0 5px 10px rgba(100,80,60,0.2);
+  box-shadow:
+    inset 0 -5px 12px rgba(0,0,0,0.35),
+    inset 0 5px 15px rgba(130,100,70,0.25),
+    inset 0 0 20px rgba(80,60,40,0.1);
 }
 
 .strand-1 {
@@ -760,6 +916,28 @@ body {
   border-radius: 35% 65% 50% 50%;
 }
 
+/* Cute nose */
+.nose {
+  width: 12px;
+  height: 10px;
+  margin: 8px auto 10px;
+  background: radial-gradient(ellipse at 50% 70%, rgba(200, 140, 120, 0.3) 0%, transparent 70%);
+  border-radius: 50% 50% 45% 45%;
+  position: relative;
+}
+
+.nose::before {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(180, 120, 100, 0.2);
+  border-radius: 50%;
+  left: 50%;
+  top: 60%;
+  transform: translateX(-50%);
+}
+
 /* Eyebrows */
 .eyebrows {
   display: flex;
@@ -811,25 +989,58 @@ body {
   transform: rotate(8deg);
 }
 
-/* Speaking movement animation */
+/* Speaking movement animation - more natural micro-movements */
 @keyframes speaking-movement {
   0%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(-1px) rotate(0.3deg); }
-  75% { transform: translateY(0.5px) rotate(-0.2deg); }
+  20% { transform: translateY(-0.8px) rotate(0.2deg); }
+  40% { transform: translateY(0.3px) rotate(-0.15deg); }
+  60% { transform: translateY(-0.5px) rotate(0.1deg); }
+  80% { transform: translateY(0.4px) rotate(-0.1deg); }
 }
 
 .face.speaking {
-  animation: speaking-movement 0.6s ease-in-out infinite;
+  animation: speaking-movement 0.5s ease-in-out infinite;
+}
+
+/* Subtle eye squint when speaking certain sounds */
+.face.speaking .eye {
+  animation: speaking-squint 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes speaking-squint {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.97); }
+}
+
+/* Cheek movement when speaking */
+.face.speaking::before,
+.face.speaking::after {
+  animation: cheek-pulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes cheek-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.05); }
 }
 
 /* Idle breathing animation */
 @keyframes breathing {
   0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-2px) scale(1.005); }
+  50% { transform: translateY(-2px) scale(1.006); }
 }
 
 .face:not(.speaking) {
   animation: breathing 4s ease-in-out infinite;
+}
+
+/* Subtle eye shine animation when idle */
+.face:not(.speaking) .light {
+  animation: eye-sparkle 3s ease-in-out infinite;
+}
+
+@keyframes eye-sparkle {
+  0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(0.9); }
 }
 
 /* Eyes */
@@ -837,42 +1048,85 @@ body {
 
 .eyes {
   display: flex;
-  gap: 20px;
+  gap: 18px;
   justify-content: center;
   margin: auto;
 }
 
+/* Eye container for eyelashes */
+.eye-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Eyelashes */
+.eyelashes {
+  position: absolute;
+  top: -3px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.lash {
+  position: absolute;
+  width: 2px;
+  height: 6px;
+  background: linear-gradient(to bottom, #3d2d22 0%, #2a1f18 100%);
+  border-radius: 50% 50% 40% 40%;
+  transform-origin: bottom center;
+}
+
+.left-lashes .lash-1 { left: 4px; transform: rotate(-35deg); height: 5px; }
+.left-lashes .lash-2 { left: 10px; transform: rotate(-20deg); height: 7px; }
+.left-lashes .lash-3 { left: 17px; transform: rotate(0deg); height: 8px; }
+.left-lashes .lash-4 { left: 24px; transform: rotate(15deg); height: 6px; }
+.left-lashes .lash-5 { left: 30px; transform: rotate(25deg); height: 5px; }
+
+.right-lashes .lash-1 { left: 4px; transform: rotate(-25deg); height: 5px; }
+.right-lashes .lash-2 { left: 10px; transform: rotate(-15deg); height: 6px; }
+.right-lashes .lash-3 { left: 17px; transform: rotate(0deg); height: 8px; }
+.right-lashes .lash-4 { left: 24px; transform: rotate(20deg); height: 7px; }
+.right-lashes .lash-5 { left: 30px; transform: rotate(35deg); height: 5px; }
+
 @layer eye {
   .eye {
     position: relative;
-    inline-size: 30px;
-    block-size: 40px;
-    margin-block-end: 16px;
-    border-radius: 50%;
-    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, #f8f8f8 60%, #e8e8e8 100%);
+    inline-size: 36px;
+    block-size: 44px;
+    margin-block-end: 18px;
+    border-radius: 45% 45% 50% 50%;
+    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, #fafafa 50%, #f0f0f0 80%, #e5e5e5 100%);
     box-shadow:
-      inset 0 2px 4px rgba(0,0,0,0.1),
-      inset 0 -1px 2px rgba(255,255,255,0.8),
-      0 2px 4px rgba(0,0,0,0.1);
+      inset 0 3px 6px rgba(0,0,0,0.12),
+      inset 0 -2px 4px rgba(255,255,255,0.9),
+      0 3px 6px rgba(0,0,0,0.12);
     overflow: hidden;
-    &.left-eye { rotate: -10deg; }
-    &.right-eye { rotate: 10deg; }
+    &.left-eye { rotate: -8deg; }
+    &.right-eye { rotate: 8deg; }
   }
 }
 
 @layer iris {
   .iris {
     position: absolute;
-    inline-size: 26px;
-    block-size: 36px;
+    inline-size: 28px;
+    block-size: 38px;
     background: radial-gradient(ellipse at 50% 45%,
-      #7da36d 0%,
-      #5a8a4a 25%,
-      #8b7355 50%,
-      #3d5c35 75%,
+      #8fb87f 0%,
+      #6ba35a 20%,
+      #5a8a4a 40%,
+      #4a7a3a 60%,
+      #3d5c35 80%,
       #2a3d25 100%);
     border-radius: 50%;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+    box-shadow:
+      inset 0 2px 6px rgba(0,0,0,0.35),
+      inset 0 0 15px rgba(0,0,0,0.15);
     transition: transform 0.1s ease-out;
     left: 50%;
     top: 50%;
@@ -883,16 +1137,26 @@ body {
       transform: translate(-50%, -50%);
     }
   }
+
+  /* Iris detail ring */
+  .iris::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+    pointer-events: none;
+  }
 }
 
 @layer pupil {
   .pupil {
     position: absolute;
-    inline-size: 10px;
-    block-size: 15px;
-    background: radial-gradient(ellipse at 40% 30%,
-      #1a1a1a 0%,
-      #000000 50%,
+    inline-size: 12px;
+    block-size: 16px;
+    background: radial-gradient(ellipse at 35% 25%,
+      #2a2a2a 0%,
+      #0a0a0a 40%,
       #000000 100%);
     border-radius: 50%;
     transition: transform 0.1s ease-out;
@@ -910,15 +1174,27 @@ body {
 @layer light {
   .light {
     position: absolute;
-    inline-size: 6px;
-    block-size: 6px;
-    background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+    inline-size: 8px;
+    block-size: 8px;
+    background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.95) 40%, rgba(255,255,255,0) 100%);
     border-radius: 50%;
-    filter: blur(0.5px);
+    filter: blur(0.3px);
     &.left-light, &.right-light {
-      top: 20%;
-      left: 60%;
+      top: 18%;
+      left: 58%;
       transform: translate(-50%, -50%);
     }
+  }
+
+  /* Secondary sparkle for cuter anime-style eyes */
+  .light::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0.9) 50%, transparent 100%);
+    border-radius: 50%;
+    bottom: -12px;
+    left: -8px;
   }
 }
