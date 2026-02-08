@@ -48,8 +48,10 @@ class BlinkController {
   }
 
   scheduleNextBlink() {
-    const delay = 2000 + Math.random() * 4000; // 2-6 seconds
-    setTimeout(() => this.blink(), delay);
+    // More natural blink timing: 2.5-5 seconds with occasional longer pauses
+    const baseDelay = 2500 + Math.random() * 2500;
+    const extraPause = Math.random() < 0.15 ? 2000 : 0; // Occasional thoughtful pause
+    setTimeout(() => this.blink(), baseDelay + extraPause);
   }
 
   blink() {
@@ -62,13 +64,13 @@ class BlinkController {
       this.eyes.forEach(eye => eye.classList.remove('blinking'));
       this.isBlinking = false;
 
-      // 20% chance of double blink
-      if (Math.random() < 0.2) {
-        setTimeout(() => this.blink(), 150);
+      // 25% chance of double blink for cuter expression
+      if (Math.random() < 0.25) {
+        setTimeout(() => this.blink(), 120 + Math.random() * 60);
       } else {
         this.scheduleNextBlink();
       }
-    }, 150);
+    }, 140);
   }
 }
 
@@ -82,11 +84,25 @@ class EyeTracker {
     this.mouseY = 0;
     this.lastMouseMove = Date.now();
     this.idleTimeout = null;
-    this.maxOffset = 2;
-    this.pupilMultiplier = 1.15;
+    this.maxOffset = 2.5;
+    this.pupilMultiplier = 1.2;
+    this.currentX = 0;
+    this.currentY = 0;
+    this.targetX = 0;
+    this.targetY = 0;
 
     document.addEventListener('mousemove', (e) => this.onMouseMove(e));
     this.startIdleMovement();
+    this.animate();
+  }
+
+  // Smooth animation loop for more natural eye movement
+  animate() {
+    const ease = 0.12;
+    this.currentX += (this.targetX - this.currentX) * ease;
+    this.currentY += (this.targetY - this.currentY) * ease;
+    this.applyOffset(this.currentX, this.currentY);
+    requestAnimationFrame(() => this.animate());
   }
 
   onMouseMove(e) {
@@ -104,10 +120,10 @@ class EyeTracker {
     const maxDistance = 300;
     const normalizedDistance = Math.min(distance / maxDistance, 1);
 
-    const offsetX = (deltaX / Math.max(distance, 1)) * this.maxOffset * normalizedDistance;
-    const offsetY = (deltaY / Math.max(distance, 1)) * this.maxOffset * normalizedDistance;
+    // Set target position for smooth animation
+    this.targetX = (deltaX / Math.max(distance, 1)) * this.maxOffset * normalizedDistance;
+    this.targetY = (deltaY / Math.max(distance, 1)) * this.maxOffset * normalizedDistance;
 
-    this.applyOffset(offsetX, offsetY);
     this.scheduleIdleMovement();
   }
 
@@ -127,11 +143,11 @@ class EyeTracker {
   startIdleMovement() {
     if (Date.now() - this.lastMouseMove < 2000) return;
 
-    const randomX = (Math.random() - 0.5) * this.maxOffset * 0.3;
-    const randomY = (Math.random() - 0.5) * this.maxOffset * 0.3;
-    this.applyOffset(randomX, randomY);
+    // Set target for smooth idle movement
+    this.targetX = (Math.random() - 0.5) * this.maxOffset * 0.4;
+    this.targetY = (Math.random() - 0.5) * this.maxOffset * 0.4;
 
-    this.idleTimeout = setTimeout(() => this.startIdleMovement(), 2000 + Math.random() * 2000);
+    this.idleTimeout = setTimeout(() => this.startIdleMovement(), 1800 + Math.random() * 2500);
   }
 }
 
@@ -446,7 +462,7 @@ window.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#face .mouth').setAttribute('data-letters', 'bmp');
 
   // Initialize eye animations
-  const eyes = face.querySelectorAll('.eye');
-  new BlinkController(eyes);
+  const eyeContainers = face.querySelectorAll('.eye-container');
+  new BlinkController(eyeContainers);
   new EyeTracker(face);
 });
